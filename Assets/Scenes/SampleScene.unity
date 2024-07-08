@@ -2666,6 +2666,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1126014640}
   - component: {fileID: 1126014639}
+  - component: {fileID: 1126014641}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -2685,15 +2686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e447a3569d45bbf46a8d20036cdc46d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyRenderer: {fileID: 307032548}
-  spawnIndicator: {fileID: 467429276}
-  spawnScaleFactor: 1.2
-  spawnScaleSpeed: 0.3
-  spawnScaleNumberOfTimes: 4
   speed: 1
-  playerDetectionRadius: 0.5
-  passAwayParticales: {fileID: 1700914580}
-  gizmos: 1
 --- !u!4 &1126014640
 Transform:
   m_ObjectHideFlags: 0
@@ -2712,6 +2705,28 @@ Transform:
   - {fileID: 1700914578}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1126014641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1126014638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feeaff13b6c9498499163cea1a3aaba0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyRenderer: {fileID: 307032548}
+  spawnIndicator: {fileID: 467429276}
+  spawnScaleFactor: 1.2
+  spawnScaleSpeed: 0.4
+  spawnScaleNumberOfTimes: 4
+  passAwayParticales: {fileID: 1700914580}
+  damage: 10
+  attackFrequency: 2
+  playerDetectionRadius: 0.8
+  gizmos: 0
 --- !u!1 &1457138695
 GameObject:
   m_ObjectHideFlags: 0

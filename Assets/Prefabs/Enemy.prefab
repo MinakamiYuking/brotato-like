@@ -64,10 +64,10 @@ MonoBehaviour:
   enemyRenderer: {fileID: 1854240408208250171}
   spawnIndicator: {fileID: 6579581827632637979}
   spawnScaleFactor: 1.2
-  spawnScaleSpeed: 0.4
-  spawnScaleNumberOfTimes: 4
+  spawnScaleSpeed: 0.2
+  spawnScaleNumberOfTimes: 3
   passAwayParticales: {fileID: 5623246595590944120}
-  damage: 10
+  damage: 1
   attackFrequency: 2
   playerDetectionRadius: 0.8
   gizmos: 0

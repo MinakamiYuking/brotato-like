@@ -108,7 +108,7 @@ public class Enemy : MonoBehaviour
     }
     private void Attack()
     {
-        Debug.Log("Attack! " + damage + " damage!");
+        player.TakeDamage(damage);
         attackTimer = 0f;
     }
     private void WaitForAttack()

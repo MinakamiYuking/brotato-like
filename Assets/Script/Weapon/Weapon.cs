@@ -1,10 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class Weapon : MonoBehaviour
 {
+    enum State
+    {
+        Idle,
+        Attack
+    }
+    private State state;
+
+    [Header(" Elements ")]
+    [SerializeField] private Transform hitDetectionTransform;
+    [SerializeField] private float hitDetectionRadius;
+
+    [Header(" Attack ")]
+    [SerializeField] private int damage;
+    [SerializeField] private float damageFrequency;
+    private float damageDelay;
+    private float attackTimer;
+    [SerializeField] private Animator animator;
+
     [Header(" Settings ")]
     [SerializeField]private float range;
     [SerializeField]private LayerMask enemyMask;
@@ -12,17 +32,49 @@ public class Weapon : MonoBehaviour
     [Header(" Animations ")]
     [SerializeField]private float aimLerp;
 
+
+    private List<Enemy> damagedEnemies = new List<Enemy>();
+
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        animator = GetComponent<Animator>();
+            
+        state = State.Idle;
+        damageDelay = 1f / damageFrequency;
+        attackTimer = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        AutoAim();
+        switch (state)
+        {
+            case State.Idle:
+                AutoAim();
+                break;
 
+            case State.Attack:
+                Attacking();
+                break;
+        }
+        incrementAttackTimer();
+    }
+
+
+    private void AutoAim()
+    {
+        Enemy closestEnemy = GetClosestEnemy();
+        Vector3 tagertVector = Vector3.up;
+
+        if (closestEnemy != null)
+        {
+            tagertVector = (closestEnemy.transform.position - transform.position).normalized;
+        }
+        transform.up = Vector3.Lerp(transform.up, tagertVector, Time.deltaTime * aimLerp);
+        if (closestEnemy != null) 
+            TryAttack();
     }
     private Enemy GetClosestEnemy()
     {
@@ -39,24 +91,63 @@ public class Weapon : MonoBehaviour
                 minDistance = distanceToEnemy;
             }
         }
-        return closestEnemy ;
+        return closestEnemy;
     }
 
-    private void AutoAim()
+    private void TryAttack()
     {
-        Enemy closestEnemy = GetClosestEnemy();
-        Vector3 tagertVector = Vector3.right;
+        if (damageDelay <= attackTimer)
+        {
+            StartAttack();
+            attackTimer = 0f;
+        }
+    }
 
-        if (closestEnemy != null)
-            tagertVector = (closestEnemy.transform.position - transform.position).normalized;
-        transform.up = Vector3.Lerp(transform.up, tagertVector, Time.deltaTime * aimLerp);
+    private void incrementAttackTimer()
+    {
+        attackTimer += Time.deltaTime;
     }
 
 
+    private void Attacking()
+    {
+        Attack();
+    }
+    private void StartAttack()
+    {
+        animator.speed = damageFrequency;
+        animator.Play("Attack");
+        state = State.Attack;
+    }
+    private void StopAttack()
+    {
+        state = State.Idle;
+        damagedEnemies.Clear();
+    }
+
+    private void Attack()
+    {
+        Collider2D[] enemis = Physics2D.OverlapCircleAll(hitDetectionTransform.position, hitDetectionRadius, enemyMask);
+        for (int i = 0; i < enemis.Length; i++)
+        {
+            Enemy enemy = enemis[i].GetComponent<Enemy>();
+            if (!damagedEnemies.Contains(enemy))
+            {
+                damagedEnemies.Add(enemy);
+                enemy.TakeDamage(damage);
+            }
+        }
+    }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, range);
+
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(hitDetectionTransform.position, hitDetectionRadius);
+
+
     }
 }

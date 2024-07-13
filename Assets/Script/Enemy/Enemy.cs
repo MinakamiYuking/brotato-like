@@ -10,6 +10,10 @@ public class Enemy : MonoBehaviour
     [Header(" Element ")]
     private Player player;
 
+    [Header(" Settings ")]
+    [SerializeField] private int maxHealth;
+    private int health;
+
     [Header(" Spawn Sequence Related ")]
     [SerializeField] private SpriteRenderer enemyRenderer;
     [SerializeField] private SpriteRenderer spawnIndicator;
@@ -38,6 +42,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         movement = GetComponent<EnemyMovement>();
+        health = maxHealth;
         StartGetPlayer();
         StartSpawnSequence();
         StartSetAttack();
@@ -103,7 +108,6 @@ public class Enemy : MonoBehaviour
         if (distanceToPlayer <= playerDetectionRadius)
         {
             Attack();
-            //PassAway();
         }
     }
     private void Attack()
@@ -116,13 +120,18 @@ public class Enemy : MonoBehaviour
         attackTimer += Time.deltaTime;
     }
 
-
+    public void TakeDamage(int damage)
+    {
+        int realDamage = Mathf.Min(damage, health);
+        health -= realDamage;
+        if (health <= 0)
+            PassAway();
+    }
     private void PassAway()
     {
         passAwayParticales.transform.SetParent(null);
         passAwayParticales.Play();
         Destroy(gameObject);
-
     }
 
     private void OnDrawGizmos()

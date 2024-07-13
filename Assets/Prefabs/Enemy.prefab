@@ -62,6 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feeaff13b6c9498499163cea1a3aaba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 20
   enemyRenderer: {fileID: 1854240408208250171}
   spawnIndicator: {fileID: 6579581827632637979}
   spawnScaleFactor: 1.2

@@ -11,15 +11,17 @@ public class DamageTextManager : MonoBehaviour
     [Header(" Pool ")]
     private ObjectPool<DamageText> damageTextPool;
 
-    // Start is called before the first frame update
     void Start()
     {
-        Enemy.onDamageTaken += InstantiateDamageText;
+        MeleeEnemy.onDamageTaken += InstantiateDamageText;
 
         damageTextPool = new ObjectPool<DamageText>(CreateFunc,ActionOnGet,ActionOnRelease,ActionOnDestroy);
     }
 
-    private DamageText CreateFunc() { return Instantiate(damageTextPrefab,transform); }
+    private DamageText CreateFunc() 
+    { 
+        return Instantiate(damageTextPrefab,transform); 
+    }
     private void ActionOnGet(DamageText damageText) 
     { 
         damageText.gameObject.SetActive(true);
@@ -32,13 +34,6 @@ public class DamageTextManager : MonoBehaviour
     {
         Destroy(damageText.gameObject);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void InstantiateDamageText(int damage,Vector3 enemyPos)
     {
         DamageText DamageTextInstantiate = damageTextPool.Get();
@@ -48,6 +43,6 @@ public class DamageTextManager : MonoBehaviour
     }
     public void OnDestroy()
     {
-        Enemy.onDamageTaken -= InstantiateDamageText;
+        MeleeEnemy.onDamageTaken -= InstantiateDamageText;
     }
 }

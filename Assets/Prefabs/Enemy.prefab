@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8425632879836383363}
+  - component: {fileID: 7127669322633558114}
   - component: {fileID: 1769354468669504609}
-  - component: {fileID: 5827595394711828074}
   - component: {fileID: 516583045847403589}
   m_Layer: 6
   m_Name: Enemy
@@ -37,6 +37,29 @@ Transform:
   - {fileID: 7174732659918782798}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7127669322633558114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2766479994887725785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8901221f809650f49864b985a2f83264, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerDetectionRadius: 0.75
+  maxHealth: 15
+  enemyRenderer: {fileID: 1854240408208250171}
+  spawnIndicator: {fileID: 6579581827632637979}
+  spawnScaleFactor: 1.3
+  spawnScaleSpeed: 0.2
+  spawnScaleNumberOfTimes: 3
+  passAwayParticales: {fileID: 5623246595590944120}
+  gizmos: 0
+  damage: 1
+  attackFrequency: 2
 --- !u!114 &1769354468669504609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50,30 +73,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
---- !u!114 &5827595394711828074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2766479994887725785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: feeaff13b6c9498499163cea1a3aaba0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 20
-  enemyRenderer: {fileID: 1854240408208250171}
-  spawnIndicator: {fileID: 6579581827632637979}
-  enemyCollider: {fileID: 516583045847403589}
-  spawnScaleFactor: 1.2
-  spawnScaleSpeed: 0.2
-  spawnScaleNumberOfTimes: 3
-  passAwayParticales: {fileID: 5623246595590944120}
-  damage: 1
-  attackFrequency: 2
-  playerDetectionRadius: 0.8
-  gizmos: 0
 --- !u!58 &516583045847403589
 CircleCollider2D:
   m_ObjectHideFlags: 0

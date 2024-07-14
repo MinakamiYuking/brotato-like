@@ -131,7 +131,6 @@ public class Weapon : MonoBehaviour
 
     private void Attack()
     {
-        //Collider2D[] enemis = Physics2D.OverlapCircleAll(hitDetectionTransform.position, hitDetectionRadius, enemyMask);
         Collider2D[] enemis = Physics2D.OverlapBoxAll(hitDetectionTransform.position,
                 hitBox.bounds.size,
                 hitDetectionTransform.localEulerAngles.z,

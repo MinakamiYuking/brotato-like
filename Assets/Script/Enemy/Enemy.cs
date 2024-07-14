@@ -3,57 +3,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+[RequireComponent(typeof(EnemyMovement),typeof(CircleCollider2D))]
+public abstract class Enemy : MonoBehaviour
 {
-    [Header(" Components ")]
-    private EnemyMovement movement;
-
-    [Header(" Element ")]
-    private Player player;
-
+    [Header(" Elements ")]
+    protected EnemyMovement movement;
+    protected Player player;
+    protected CircleCollider2D enemyCollider;
     [Header(" Settings ")]
-    [SerializeField] private int maxHealth;
-    private int health;
-
+    [SerializeField] protected float playerDetectionRadius;
+    [SerializeField] protected int maxHealth;
+    protected int health;
     [Header(" Spawn Sequence Related ")]
-    [SerializeField] private SpriteRenderer enemyRenderer;
-    [SerializeField] private SpriteRenderer spawnIndicator;
-    [SerializeField] private CircleCollider2D enemyCollider;
-    [SerializeField] private float spawnScaleFactor;
-    [SerializeField] private float spawnScaleSpeed;
-    [SerializeField] private int spawnScaleNumberOfTimes;
-
-
+    [SerializeField] protected SpriteRenderer enemyRenderer;
+    [SerializeField] protected SpriteRenderer spawnIndicator;
+    [SerializeField] protected float spawnScaleFactor;
+    [SerializeField] protected float spawnScaleSpeed;
+    [SerializeField] protected int spawnScaleNumberOfTimes;
     [Header(" Effects ")]
-    [SerializeField] private ParticleSystem passAwayParticales;
-
-    [Header(" Attack ")]
-    [SerializeField] private int damage;
-    [SerializeField] private int attackFrequency;
-    [SerializeField] private float playerDetectionRadius;
-    private float attackDelay;
-    private float attackTimer;
-
+    [SerializeField] protected ParticleSystem passAwayParticales;
     [Header(" Action ")]
-    public static Action<int,Vector3> onDamageTaken;
-
+    public static Action<int, Vector3> onDamageTaken;
     [Header(" Debug ")]
-    [SerializeField] private bool gizmos;
+    [SerializeField] protected bool gizmos;
 
-
-
-    // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
+        GetPlayer();
         movement = GetComponent<EnemyMovement>();
+        movement.StorePlayer(player);
         enemyCollider = GetComponent<CircleCollider2D>();
         health = maxHealth;
-        StartGetPlayer();
         StartSpawnSequence();
-        StartSetAttack();
     }
-
-    private void StartGetPlayer()
+    protected bool hasSpawned()
+    {
+        return enemyRenderer.enabled;
+    }
+    private void GetPlayer()
     {
         player = FindFirstObjectByType<Player>();
         if (player == null)
@@ -75,57 +62,15 @@ public class Enemy : MonoBehaviour
     private void SpawnSequenceComplete()
     {
         SetRendererVisibility(true);
-
-        movement.StorePlayer(player);
-        enemyCollider.enabled = true;
     }
 
     private void SetRendererVisibility(bool visible)
     {
+        enemyCollider.enabled = visible;
         enemyRenderer.enabled = visible;
         spawnIndicator.enabled = !visible;
     }
 
-
-    private void StartSetAttack()
-    {
-        attackDelay = 1f / attackFrequency;
-        attackTimer = 0f; 
-    }
-
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (!enemyRenderer.enabled)
-            return;
-        if (attackTimer >= attackDelay)
-            TryAttack();
-        else
-            WaitForAttack();
-
-        movement.FollowPlayer();
-    }
-
-
-    private void TryAttack()
-    {
-        float distanceToPlayer = Vector2.Distance((Vector2)player.transform.position, (Vector2)transform.position);
-        if (distanceToPlayer <= playerDetectionRadius)
-        {
-            Attack();
-        }
-    }
-    private void Attack()
-    {
-        player.TakeDamage(damage);
-        attackTimer = 0f;
-    }
-    private void WaitForAttack()
-    {
-        attackTimer += Time.deltaTime;
-    }
 
     public void TakeDamage(int damage)
     {
@@ -144,15 +89,7 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnDrawGizmos()
-    {
-        if (!gizmos)
-        {
-            return;
-        }
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, playerDetectionRadius);
-    }
+
 
 }

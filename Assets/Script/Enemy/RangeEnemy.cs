@@ -3,57 +3,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+[RequireComponent(typeof(EnemyMovement), typeof(RangeEnemyAttack))]
+public class RangeEnemy : MonoBehaviour
 {
     [Header(" Components ")]
-    private EnemyMovement movement;
+    private CircleCollider2D enemyCollider;
 
-    [Header(" Element ")]
+    [Header(" Elements ")]
     private Player player;
+    private EnemyMovement movement;
+    private RangeEnemyAttack enemyAttack;
 
     [Header(" Settings ")]
+    [SerializeField] private float playerDetectionRadius;
     [SerializeField] private int maxHealth;
     private int health;
 
     [Header(" Spawn Sequence Related ")]
     [SerializeField] private SpriteRenderer enemyRenderer;
     [SerializeField] private SpriteRenderer spawnIndicator;
-    [SerializeField] private CircleCollider2D enemyCollider;
     [SerializeField] private float spawnScaleFactor;
     [SerializeField] private float spawnScaleSpeed;
     [SerializeField] private int spawnScaleNumberOfTimes;
 
-
     [Header(" Effects ")]
     [SerializeField] private ParticleSystem passAwayParticales;
 
-    [Header(" Attack ")]
-    [SerializeField] private int damage;
-    [SerializeField] private int attackFrequency;
-    [SerializeField] private float playerDetectionRadius;
-    private float attackDelay;
-    private float attackTimer;
-
     [Header(" Action ")]
-    public static Action<int,Vector3> onDamageTaken;
+    public static Action<int, Vector3> onDamageTaken;
 
     [Header(" Debug ")]
     [SerializeField] private bool gizmos;
 
-
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
+        GetPlayer();
         movement = GetComponent<EnemyMovement>();
-        enemyCollider = GetComponent<CircleCollider2D>();
-        health = maxHealth;
-        StartGetPlayer();
-        StartSpawnSequence();
-        StartSetAttack();
-    }
+        movement.StorePlayer(player);
+        enemyAttack = GetComponent<RangeEnemyAttack>();
+        enemyAttack.StorePlayer(player);
 
-    private void StartGetPlayer()
+        enemyCollider = GetComponent<CircleCollider2D>();
+    }
+    private void GetPlayer()
     {
         player = FindFirstObjectByType<Player>();
         if (player == null)
@@ -61,6 +53,12 @@ public class Enemy : MonoBehaviour
             Debug.LogWarning("No Player found, destroy enemy.");
             Destroy(gameObject);
         }
+    }
+
+    void Start()
+    {
+        health = maxHealth;
+        StartSpawnSequence();
     }
 
     private void StartSpawnSequence()
@@ -75,68 +73,37 @@ public class Enemy : MonoBehaviour
     private void SpawnSequenceComplete()
     {
         SetRendererVisibility(true);
-
-        movement.StorePlayer(player);
-        enemyCollider.enabled = true;
     }
 
     private void SetRendererVisibility(bool visible)
     {
-        enemyRenderer.enabled = visible;
         spawnIndicator.enabled = !visible;
+        enemyRenderer.enabled = visible;
+        enemyCollider.enabled = visible;
+
     }
 
 
-    private void StartSetAttack()
-    {
-        attackDelay = 1f / attackFrequency;
-        attackTimer = 0f; 
-    }
-
-
-
-    // Update is called once per frame
     void Update()
     {
         if (!enemyRenderer.enabled)
             return;
-        if (attackTimer >= attackDelay)
-            TryAttack();
-        else
-            WaitForAttack();
-
-        movement.FollowPlayer();
-    }
-
-
-    private void TryAttack()
-    {
         float distanceToPlayer = Vector2.Distance((Vector2)player.transform.position, (Vector2)transform.position);
-        if (distanceToPlayer <= playerDetectionRadius)
-        {
-            Attack();
-        }
-    }
-    private void Attack()
-    {
-        player.TakeDamage(damage);
-        attackTimer = 0f;
-    }
-    private void WaitForAttack()
-    {
-        attackTimer += Time.deltaTime;
+        if (distanceToPlayer > playerDetectionRadius)
+            movement.FollowPlayer();
+        else
+            enemyAttack.TryAttack();
     }
 
     public void TakeDamage(int damage)
     {
         int realDamage = Mathf.Min(damage, health);
         health -= realDamage;
-
         onDamageTaken?.Invoke(damage, transform.position);
-
         if (health <= 0)
             PassAway();
     }
+
     private void PassAway()
     {
         passAwayParticales.transform.SetParent(null);
@@ -154,5 +121,6 @@ public class Enemy : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, playerDetectionRadius);
     }
+
 
 }

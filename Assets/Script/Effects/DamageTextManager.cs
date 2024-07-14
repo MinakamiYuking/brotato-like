@@ -33,9 +33,6 @@ public class DamageTextManager : MonoBehaviour
         Destroy(damageText.gameObject);
     }
 
-
-
-
     // Update is called once per frame
     void Update()
     {

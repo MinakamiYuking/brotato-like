@@ -12,22 +12,22 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private float speed ;
 
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (player == null)
-            return;
-        FollowPlayer();
-    }
-
-    public void StorePlayer(Player player)
-    {
-        this.player = player;   
-    }
-    private void FollowPlayer()
+    public void FollowPlayer()
     {
         Vector2 direction = ((Vector2)player.transform.position - (Vector2)transform.position).normalized;
         Vector2 targetPostion = (Vector2)transform.position + direction * speed * Time.deltaTime;
         transform.position = (Vector3)targetPostion;
+    }
+    public void AwayPlayer()
+    {
+        Vector2 direction = ((Vector2)player.transform.position - (Vector2)transform.position).normalized;
+        Vector2 targetPostion = (Vector2)transform.position + direction * speed * Time.deltaTime;
+        transform.position = -(Vector3)targetPostion;
+    }
+
+
+    public void StorePlayer(Player player)
+    {
+        this.player = player;
     }
 }

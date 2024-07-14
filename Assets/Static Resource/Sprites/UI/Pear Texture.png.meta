@@ -82,7 +82,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -424,14 +424,27 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Pear Texture_0: 3263062294191025863
+      Pear Texture_1: 6927828212888398469
+      Pear Texture_10: 6323701472289479947
+      Pear Texture_11: -2809592420901476768
+      Pear Texture_12: 5287691443384199204
+      Pear Texture_2: 8738031036448365636
+      Pear Texture_3: -8127585841319733967
+      Pear Texture_4: -433293495131375192
+      Pear Texture_5: 6525951684604502191
+      Pear Texture_6: 1359639087269176822
+      Pear Texture_7: -3870189616360742580
+      Pear Texture_8: 6061089719638045864
+      Pear Texture_9: -8861572511108892553
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

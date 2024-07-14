@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,7 @@ public class Enemy : MonoBehaviour
     [Header(" Spawn Sequence Related ")]
     [SerializeField] private SpriteRenderer enemyRenderer;
     [SerializeField] private SpriteRenderer spawnIndicator;
+    [SerializeField] private CircleCollider2D enemyCollider;
     [SerializeField] private float spawnScaleFactor;
     [SerializeField] private float spawnScaleSpeed;
     [SerializeField] private int spawnScaleNumberOfTimes;
@@ -33,6 +35,9 @@ public class Enemy : MonoBehaviour
     private float attackDelay;
     private float attackTimer;
 
+    [Header(" Action ")]
+    public static Action<int,Vector3> onDamageTaken;
+
     [Header(" Debug ")]
     [SerializeField] private bool gizmos;
 
@@ -42,6 +47,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         movement = GetComponent<EnemyMovement>();
+        enemyCollider = GetComponent<CircleCollider2D>();
         health = maxHealth;
         StartGetPlayer();
         StartSpawnSequence();
@@ -72,7 +78,9 @@ public class Enemy : MonoBehaviour
     {
         SetRendererVisibility(true);
         hasBeenSpawn = true;
+
         movement.StorePlayer(player);
+        enemyCollider.enabled = true;
     }
 
     private void SetRendererVisibility(bool visible)
@@ -124,6 +132,9 @@ public class Enemy : MonoBehaviour
     {
         int realDamage = Mathf.Min(damage, health);
         health -= realDamage;
+
+        onDamageTaken?.Invoke(damage, transform.position);
+
         if (health <= 0)
             PassAway();
     }

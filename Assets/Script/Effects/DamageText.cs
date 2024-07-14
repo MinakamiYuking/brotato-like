@@ -22,9 +22,11 @@ public class DamageText : MonoBehaviour
         
     }
 
-    public void PlayDamageTextAnimation()
+    public void PlayDamageTextAnimation(int damage)
     {
-        damageText.text = Random.Range(10,1000).ToString();
+        damageText.text = damage.ToString();
         animator.Play("Damage Text Animation");
     }
+
+
 }

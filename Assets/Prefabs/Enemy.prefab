@@ -65,6 +65,7 @@ MonoBehaviour:
   maxHealth: 20
   enemyRenderer: {fileID: 1854240408208250171}
   spawnIndicator: {fileID: 6579581827632637979}
+  enemyCollider: {fileID: 516583045847403589}
   spawnScaleFactor: 1.2
   spawnScaleSpeed: 0.2
   spawnScaleNumberOfTimes: 3
@@ -80,7 +81,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2766479994887725785}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}

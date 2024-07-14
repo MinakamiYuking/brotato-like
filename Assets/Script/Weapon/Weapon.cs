@@ -16,7 +16,7 @@ public class Weapon : MonoBehaviour
 
     [Header(" Elements ")]
     [SerializeField] private Transform hitDetectionTransform;
-    [SerializeField] private float hitDetectionRadius;
+    [SerializeField] private BoxCollider2D hitBox;
 
     [Header(" Attack ")]
     [SerializeField] private int damage;
@@ -71,10 +71,14 @@ public class Weapon : MonoBehaviour
         if (closestEnemy != null)
         {
             tagertVector = (closestEnemy.transform.position - transform.position).normalized;
-        }
-        transform.up = Vector3.Lerp(transform.up, tagertVector, Time.deltaTime * aimLerp);
-        if (closestEnemy != null) 
+            transform.up = tagertVector;
             TryAttack();
+        }
+        else 
+        {
+        transform.up = Vector3.Lerp(transform.up, tagertVector, Time.deltaTime * aimLerp);
+        }
+
     }
     private Enemy GetClosestEnemy()
     {
@@ -127,7 +131,11 @@ public class Weapon : MonoBehaviour
 
     private void Attack()
     {
-        Collider2D[] enemis = Physics2D.OverlapCircleAll(hitDetectionTransform.position, hitDetectionRadius, enemyMask);
+        //Collider2D[] enemis = Physics2D.OverlapCircleAll(hitDetectionTransform.position, hitDetectionRadius, enemyMask);
+        Collider2D[] enemis = Physics2D.OverlapBoxAll(hitDetectionTransform.position,
+                hitBox.bounds.size,
+                hitDetectionTransform.localEulerAngles.z,
+                enemyMask);
         for (int i = 0; i < enemis.Length; i++)
         {
             Enemy enemy = enemis[i].GetComponent<Enemy>();
@@ -143,10 +151,6 @@ public class Weapon : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, range);
-
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(hitDetectionTransform.position, hitDetectionRadius);
 
 
     }

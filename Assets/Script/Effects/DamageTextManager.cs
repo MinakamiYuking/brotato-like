@@ -13,7 +13,7 @@ public class DamageTextManager : MonoBehaviour
 
     void Start()
     {
-        MeleeEnemy.onDamageTaken += InstantiateDamageText;
+        Enemy.onDamageTaken += InstantiateDamageText;
 
         damageTextPool = new ObjectPool<DamageText>(CreateFunc,ActionOnGet,ActionOnRelease,ActionOnDestroy);
     }
@@ -28,7 +28,7 @@ public class DamageTextManager : MonoBehaviour
     }
     private void ActionOnRelease(DamageText damageText) 
     {
-        damageText.gameObject.SetActive(false);
+        if (damageText != null) damageText.gameObject.SetActive(false);
     }
     private void ActionOnDestroy(DamageText damageText)
     {
@@ -43,6 +43,6 @@ public class DamageTextManager : MonoBehaviour
     }
     public void OnDestroy()
     {
-        MeleeEnemy.onDamageTaken -= InstantiateDamageText;
+        Enemy.onDamageTaken -= InstantiateDamageText;
     }
 }

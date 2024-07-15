@@ -197,6 +197,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b9c173da06db0849be881bd9ac359fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigid: {fileID: 2689809336781327306}
   bulletCollider: {fileID: 1276023760218009493}
+  bulletRigid: {fileID: 2689809336781327306}
   moveSpeed: 3

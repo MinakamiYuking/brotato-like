@@ -16,6 +16,9 @@ public class RangeEnemyAttack : MonoBehaviour
     [SerializeField] private int attackFrequency;
     private float attackDelay;
     private float attackTimer;
+
+    [SerializeField] private float bulletMoveSpeed;
+
     private ObjectPool<EnemyBullet> bulletPool;
     void Start()
     {
@@ -25,7 +28,7 @@ public class RangeEnemyAttack : MonoBehaviour
     private EnemyBullet CreateFunc() 
     {
         EnemyBullet bulletInstace = Instantiate(bulletPrefab, shootingPoint.position,Quaternion.identity);
-        bulletInstace.Configure(this);
+        bulletInstace.Configure(bulletMoveSpeed, this);
         return bulletInstace;
     }
     private void ActionOnGet(EnemyBullet bullet) 
@@ -44,7 +47,7 @@ public class RangeEnemyAttack : MonoBehaviour
     }
     public void ReleaseBullet(EnemyBullet bullet)
     {
-        bulletPool.Release(bullet);
+        if (bullet != null) bulletPool.Release(bullet);
     }
     private void StartSetAttack()
     {

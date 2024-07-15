@@ -11,6 +11,8 @@ public class MeleeWeapon : Weapon
         Attack
     }
     protected State state;
+    [Header(" Elements ")]
+    [SerializeField] protected Transform hitDetectionTransform;
     [SerializeField] private BoxCollider2D hitBox;
     [SerializeField] protected Animator animator;
     protected List<Enemy> damagedEnemies = new List<Enemy>();
@@ -38,11 +40,6 @@ public class MeleeWeapon : Weapon
                 break;
         }
     }
-
-
-
-
-
 
     private void StartAttack()
     {

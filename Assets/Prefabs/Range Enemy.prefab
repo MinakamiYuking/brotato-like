@@ -108,7 +108,7 @@ MonoBehaviour:
   spawnScaleSpeed: 0.2
   spawnScaleNumberOfTimes: 3
   passAwayParticales: {fileID: 7062332850020075117}
-  gizmos: 1
+  gizmos: 0
 --- !u!114 &9211455838740853193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,6 +125,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 5256482165261476138, guid: 9741f94f196453d4b8f3b7dedf8537b9, type: 3}
   damage: 1
   attackFrequency: 2
+  bulletMoveSpeed: 3
 --- !u!1 &3782945968814776213
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,7 +17,9 @@ public class MobileJoystick : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         HideJoystick();
+
     }
 
     // Update is called once per frame
@@ -55,12 +57,14 @@ public class MobileJoystick : MonoBehaviour
     private void ShowJoystick()
     {
         joyStickOutLine.gameObject.SetActive(true);
+        joyStickKnob.gameObject.SetActive(true);
         canControl = true;
     }
 
     private void HideJoystick()
     {
         joyStickOutLine.gameObject.SetActive(false);
+        joyStickKnob.gameObject.SetActive(false);
         canControl = false ;
     }
 

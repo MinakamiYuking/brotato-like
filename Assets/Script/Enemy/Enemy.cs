@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyMovement),typeof(CircleCollider2D))]
@@ -23,7 +21,7 @@ public abstract class Enemy : MonoBehaviour
     [Header(" Effects ")]
     [SerializeField] protected ParticleSystem passAwayParticales;
     [Header(" Action ")]
-    public static Action<int, Vector3> onDamageTaken;
+    public static Action<int, Vector3, bool> onDamageTaken;
     [Header(" Debug ")]
     [SerializeField] protected bool gizmos;
 
@@ -72,7 +70,25 @@ public abstract class Enemy : MonoBehaviour
     }
 
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, float probabilities)
+    {
+        bool isCiriticalHit = false;
+        if (UnityEngine.Random.Range(0f, 1f) <= probabilities)
+        {
+            damage *= 2;
+            isCiriticalHit = true;
+        }
+        int realDamage = Mathf.Min(damage, health);
+        health -= realDamage;
+
+        onDamageTaken?.Invoke(realDamage, transform.position, isCiriticalHit);
+
+        if (health <= 0)
+            PassAway();
+
+    }
+
+/*    public void TakeDamage(int damage)
     {
         int realDamage = Mathf.Min(damage, health);
         health -= realDamage;
@@ -81,15 +97,13 @@ public abstract class Enemy : MonoBehaviour
 
         if (health <= 0)
             PassAway();
-    }
+    }*/
+
     private void PassAway()
     {
         passAwayParticales.transform.SetParent(null);
         passAwayParticales.Play();
         Destroy(gameObject);
     }
-
-
-
 
 }

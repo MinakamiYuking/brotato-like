@@ -32,7 +32,7 @@ public class RangeWeapon : Weapon
     private CandyGunBullet CreateFunc()
     {
         CandyGunBullet bulletInstace = Instantiate(candyGunBulletPrefab, shootingPoint.position, Quaternion.identity);
-        bulletInstace.Configure(bulletMoveSpeed, this);
+        bulletInstace.Configure( bulletMoveSpeed, criticalHitProbilities, this);
         return bulletInstace;
     }
     private void ActionOnGet(CandyGunBullet bullet)

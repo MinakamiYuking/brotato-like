@@ -15,9 +15,10 @@ public class DamageText : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void PlayDamageTextAnimation(int damage)
+    public void PlayDamageTextAnimation(int damage,bool isCiriticalHit)
     {
         damageText.text = damage.ToString();
+        damageText.color = isCiriticalHit? Color.yellow :Color.white;
         animator.Play("Damage Text Animation");
     }
 

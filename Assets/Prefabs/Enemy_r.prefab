@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1769354468669504609}
   - component: {fileID: 516583045847403589}
   m_Layer: 6
-  m_Name: Enemy
+  m_Name: Enemy_r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerDetectionRadius: 0.75
-  maxHealth: 15
+  maxHealth: 20
   enemyRenderer: {fileID: 1854240408208250171}
   spawnIndicator: {fileID: 6579581827632637979}
   spawnScaleFactor: 1.3

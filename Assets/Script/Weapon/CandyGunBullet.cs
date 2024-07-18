@@ -12,6 +12,7 @@ public class CandyGunBullet : MonoBehaviour
     private RangeWeapon rangeWeapon;
 
     [Header(" Settings ")]
+    float criticalHitProbilities;
     private float bulletMoveSpeed;
     private int damage;
     private Enemy firstTouchTarget;
@@ -21,9 +22,10 @@ public class CandyGunBullet : MonoBehaviour
         bulletRigid = gameObject.GetComponent<Rigidbody2D>();
     }
 
-    public void Configure(float bulletMoveSpeed, RangeWeapon rangeWeapon)
+    public void Configure(float bulletMoveSpeed, float criticalHitProbilities, RangeWeapon rangeWeapon)
     {
         this.bulletMoveSpeed = bulletMoveSpeed;
+        this.criticalHitProbilities = criticalHitProbilities;
         this.rangeWeapon = rangeWeapon;
     }
     public void Reload()
@@ -40,7 +42,7 @@ public class CandyGunBullet : MonoBehaviour
         if (collision.TryGetComponent(out Enemy enemy))
         {
             firstTouchTarget = enemy;
-            enemy.TakeDamage(damage);
+            enemy.TakeDamage(damage,criticalHitProbilities);
             bulletCollider.enabled = false;
             rangeWeapon.ReleaseBullet(this);
         }

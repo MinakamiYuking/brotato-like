@@ -34,11 +34,11 @@ public class DamageTextManager : MonoBehaviour
     {
         Destroy(damageText.gameObject);
     }
-    public void InstantiateDamageText(int damage,Vector3 enemyPos)
+    public void InstantiateDamageText(int damage,Vector3 enemyPos, bool isCiriticalHit)
     {
         DamageText DamageTextInstantiate = damageTextPool.Get();
         DamageTextInstantiate.transform.position = enemyPos + Vector3.up * 0.7f ;
-        DamageTextInstantiate.PlayDamageTextAnimation(damage);
+        DamageTextInstantiate.PlayDamageTextAnimation(damage, isCiriticalHit);
         LeanTween.delayedCall(1, () => damageTextPool.Release(DamageTextInstantiate));
     }
     public void OnDestroy()

@@ -17,6 +17,8 @@ public class MeleeWeapon : Weapon
     [SerializeField] protected Animator animator;
     protected List<Enemy> damagedEnemies = new List<Enemy>();
 
+
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -64,7 +66,7 @@ public class MeleeWeapon : Weapon
             if (!damagedEnemies.Contains(enemy))
             {
                 damagedEnemies.Add(enemy);
-                enemy.TakeDamage(damage);
+                enemy.TakeDamage(damage, criticalHitProbilities);
             }
         }
     }

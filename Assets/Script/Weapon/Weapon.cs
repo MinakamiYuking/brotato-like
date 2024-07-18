@@ -18,6 +18,7 @@ public abstract class Weapon : MonoBehaviour
 
     [Header(" Settings ")]
     [SerializeField] protected float range;
+    [SerializeField] protected float criticalHitProbilities;
     [SerializeField] protected LayerMask enemyMask;
 
     [Header(" Animations ")]
@@ -81,6 +82,7 @@ public abstract class Weapon : MonoBehaviour
     {
         attackTimer += Time.deltaTime;
     }
+
 
     private void OnDrawGizmosSelected()
     {
